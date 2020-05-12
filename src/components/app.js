@@ -92,7 +92,7 @@ export default class App extends Component {
     return (
       <div className="container">
         <Router>
-          <div>
+          <div className="nav-content-divider">
             <NavigationContainer
               loggedInStatus={this.state.loggedInStatus}
               handleSuccessfulLogout={this.handleSuccessfulLogout}

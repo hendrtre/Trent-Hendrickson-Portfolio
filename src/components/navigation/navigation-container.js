@@ -3,6 +3,8 @@ import axios from 'axios'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { withRouter } from 'react-router'
 import { NavLink } from 'react-router-dom'
+import navPicture from "./../../../static/assets/bio/MyProfile.jpg"
+
 
 const NavigationComponent = (props) => {
     const dynamicLink = (route, linkText) => {
@@ -32,26 +34,36 @@ const NavigationComponent = (props) => {
     }
 
     return (
-            <div className="nav-wrapper">
-                {/* <div className="left-side"> */}
+        <div className="nav-wrapper">
+            <div className="nav-image">
+                <img src={navPicture} alt="Itsa Me TRENTIO! HAHA"/>
+            </div>
+            
+            <div className="right-side">
+                Trent Hendrickson
+                {props.loggedInStatus === 'LOGGED_IN' ? <a onClick={handleSignOut}>
+                    <FontAwesomeIcon icon="sign-out-alt" />
+                </a> : null}
+            </div>
+            <div className="left-side">
 
-                    <div className="nav-link-wrapper">
-                        <NavLink exact to="/" activeClassName="nav-link-active">
-                            Home
-                        </NavLink>
-                    </div>
+                <div className="nav-link-wrapper">
+                    <NavLink exact to="/" activeClassName="nav-link-active">
+                        Home
+                    </NavLink>
+                </div>
 
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/about-me" activeClassName="nav-link-active">
-                            About
-                        </NavLink>
-                    </div>
-                    
-                    <div className="nav-link-wrapper">
-                        <NavLink to="/contact" activeClassName="nav-link-active">
-                            Contact
-                        </NavLink>
-                    </div>
+                <div className="nav-link-wrapper">
+                    <NavLink to="/about-me" activeClassName="nav-link-active">
+                        About
+                    </NavLink>
+                </div>
+                
+                <div className="nav-link-wrapper">
+                    <NavLink to="/contact" activeClassName="nav-link-active">
+                        Contact
+                    </NavLink>
+                </div>
 
 {/* I KNOW THAT THIS ISN'T PRETTY BUT I LEFT THE CODE FOR BLOG JUST IN CASE I EVER NEEDED IT FOR FUTURE REFERENCE OR USE */}
                     {/* <div className="nav-link-wrapper">
@@ -61,17 +73,10 @@ const NavigationComponent = (props) => {
                     </div> */}
 
 
-                    {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/portfolio-manager", "Portfolio Manager") : null }
-                {/* </div> */}
-                
-                {/* <div className="right-side"> */}
-                    Trent Hendrickson
-                    {props.loggedInStatus === 'LOGGED_IN' ? <a onClick={handleSignOut}>
-                        <FontAwesomeIcon icon="sign-out-alt" />
-                    </a> : null}
-                {/* </div> */}
-            </div>
-        )
+                {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/portfolio-manager", "Portfolio Manager") : null }
+            </div>                
+        </div>
+    )
 }
 
 
