@@ -33,7 +33,8 @@ export default class PortfolioManager extends Component {
     }
 
     handleDeleteClick(portfolioItem) {
-        axios.delete(`https://api.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`, {withCredentials: true}).then(response => {
+        // axios.delete(`https://api.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`, {withCredentials: true}).then(response => {
+        axios.delete(`http://localhost:5000/api/v1/portfolio/${portfolioItem.id}`, {withCredentials: true}).then(response => {
             this.setState({
                 portfolioItems: this.state.portfolioItems.filter(item => {
                     return item.id !== portfolioItem.id;
@@ -63,11 +64,12 @@ export default class PortfolioManager extends Component {
 
     getPortfolioItems() {
         // axios.get("https://trenthendrickson.devcamp.space/portfolio/portfolio_items", the one below is ment to render and update your website with what is on the database. 
-        axios.get("https://trenthendrickson.devcamp.space/portfolio/portfolio_items?order_by=created_at&direction=desc", {
-            withCredentials: true
+        // axios.get("https://trenthendrickson.devcamp.space/portfolio/portfolio_items?order_by=created_at&direction=desc", {
+        axios.get("http://localhost:5000/api/v1/portfolios", {
+            // withCredentials: true
         }).then(response => {
             this.setState({
-                portfolioItems: [...response.data.portfolio_items]
+                portfolioItems: [...response.data]
             })
         }).catch(error => {
             console.log("error in getPortfolioItems", error)

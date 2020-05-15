@@ -24,6 +24,7 @@ export default class Login extends Component {
     }
     
     handleSubmit(event) {
+        // axios.post("https://api.devcamp.space/sessions",
         axios.post("https://api.devcamp.space/sessions",
             {
                 client: {

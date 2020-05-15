@@ -28,6 +28,7 @@ export default class Blog extends Component {
 
     handleDeleteClick(blog) {
         axios.delete(
+        // `https://api.devcamp.space/portfolio/portfolio_blogs/${blog.id}`,
         `https://api.devcamp.space/portfolio/portfolio_blogs/${blog.id}`,
         { withCredentials: true }
         )
@@ -89,6 +90,7 @@ export default class Blog extends Component {
             currentPage: this.state.currentPage + 1
         })
 
+        // axios.get(`https://trenthendrickson.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`, { withCredentials: true })
         axios.get(`https://trenthendrickson.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`, { withCredentials: true })
         .then(response => {
             console.log("getting", response.data)

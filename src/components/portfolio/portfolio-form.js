@@ -20,7 +20,8 @@ export default class PortfolioForm extends Component {
       banner_image: "",
       logo: "",
       editMode: false,
-      apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
+      // apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
+      apiUrl: "http://localhost:5000/api/v1/portfolio",
       apiAction: 'post'
     };
     
@@ -41,7 +42,8 @@ export default class PortfolioForm extends Component {
 deleteImage(imageType) {
   console.log(imageType)
   axios.delete(
-    `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state.id}?image_type=${imageType}`, 
+    // `http://localhost:5000/api/v1/portfolio/<id>`,
+    `http://localhost:5000/api/v1/portfolio/${this.state.id}?image_type=${imageType}`,
     { withCredentials: true }
   ).then(response => {
     this.setState({
@@ -52,6 +54,20 @@ deleteImage(imageType) {
     console.log("deleteImage error", error)
   })
 }
+// deleteImage(imageType) {
+//   console.log(imageType)
+//   axios.delete(
+//     `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state.id}?image_type=${imageType}`, 
+//     { withCredentials: true }
+//   ).then(response => {
+//     this.setState({
+//       [`${imageType}_url`]: ""
+//     })
+//   })
+//   .catch(error => {
+//     console.log("deleteImage error", error)
+//   })
+// }
 
 componentDidUpdate() {
   if (Object.keys(this.props.portfolioToEdit).length > 0) {
@@ -77,7 +93,9 @@ componentDidUpdate() {
       position: position || "",
       url: url || "",
       editMode: true,
-      apiUrl: `https://trenthendrickson.devcamp.space/portfolio/portfolio_items/${id}`,
+      // apiUrl: `https://trenthendrickson.devcamp.space/portfolio/portfolio_items/${id}`,
+      apiUrl: `http://localhost:5000/api/v1/portfolio/${id}`,
+      // apiUrl: `http://localhost:5000/api/v1/portfolio/<id>`,
       apiAction: 'patch',
       thumb_image_url: thumb_image_url || "",
       banner_image_url: banner_image_url || "",
@@ -153,14 +171,26 @@ handleSubmit(event) {
     axios({
       method: this.state.apiAction,
       url: this.state.apiUrl,
-      data: this.buildForm(),
-      withCredentials: true
+      // data: this.buildForm(),
+      data: {
+        name: this.state.name,
+        description: this.state.description,
+        category: this.state.category,
+        position: this.state.position,
+        url: this.state.url,
+        thumb_image_url: "https://cloudinary.com/wahte/imageurl",
+        thumb_image_id: "dummy text",
+        banner_image_url: "dummy text",
+        banner_image_id: "dummy text",
+        logo_url: "dummy text",
+        logo_id: "dummy text"
+      }
     })
       .then(response => {
           if (this.state.editMode) {
             this.props.handleEditFormSubmission()
           } else {   
-            this.props.handleNewFormSubmission(response.data.portfolio_item);
+            this.props.handleNewFormSubmission(response.data);
           }
 
           this.setState({
@@ -173,7 +203,8 @@ handleSubmit(event) {
           banner_image: "",
           logo: "",
           editMode: false,
-          apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
+          apiUrl: "http://localhost:5000/api/v1/portfolio",
+          // apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
           apiAction: 'post'
 
         });
@@ -316,233 +347,4 @@ render() {
         </form>
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // import React, { Component } from 'react'
-    // import axios from 'axios'
-    // import DropzoneComponent from 'react-dropzone-component'
-    
-    // import "../../../node_modules/dropzone/dist/min/dropzone.min.css"
-    // import "../../../node_modules/react-dropzone-component/styles/filepicker.css"
-    
-    // export default class PortfolioForm extends Component {
-    //     constructor(props) {
-    //         super(props)
-    
-    //         this.state = {
-    //             name: "",
-    //             description: "",
-    //             category: "eCommerce",
-    //             position: "",
-    //             url: "",
-    //             thumb_image: "",
-    //             banner_image: "",
-    //             logo: ""
-    //         }
-    
-    //         this.handleChange = this.handleChange.bind(this)
-    //         this.handleSubmit = this.handleSubmit.bind(this)
-    //         this.componentConfig = this.componentConfig.bind(this)
-    //         this.djsConfig = this.djsConfig.bind(this)
-    //         this.handleThumbDrop = this.handleThumbDrop.bind(this)
-    //         this.handleBannerDrop = this.handleBannerDrop.bind(this)
-    //         this.handleLogoDrop = this.handleLogoDrop.bind(this)
-    
-    //         this.thumbRef = React.createRef()
-    //         this.bannerRef = React.createRef()
-    //         this.logoRef = React.createRef()
-    //     }
-    
-    //     handleThumbDrop() {
-    //         return {
-    //             addedfile: file => this.setState({ thumb_image: file })
-    //         }
-    //     }
-    
-    //     handleBannerDrop() {
-    //         return {
-    //             addedfile: file => this.setState({ banner_image: file })
-    //         }
-    //     }
-    
-    //     handleLogoDrop() {
-    //         return {
-    //             addedfile: file => this.setState({ logo: file })
-    //         }
-    //     }
-    
-    //     componentConfig() {
-    //         return {
-    //             iconFiletypes: [".jpg", ".png"],
-    //             showFiletypeIcon: true,
-    //             postUrl: "https://httpbin.org/post"
-    //         }
-    //     }
-    
-    //     djsConfig() {
-    //         return {
-    //             addRemoveLinks: true,
-    //             maxFiles: 1
-    //         }
-    //     }
-    
-    //     buildForm() {
-    //         let formData = new FormData()
-    
-    //         formData.append("portfolio_item[name]", this.state.name)
-    //         formData.append("portfolio_item[description]", this.state.description)
-    //         formData.append("portfolio_item[url]", this.state.url)
-    //         formData.append("portfolio_item[category]", this.state.category)
-    //         formData.append("portfolio_item[position]", this.state.position)
-    //         formData.append("portfolio_item[thumb_image]", this.state.thumb_image)
-    
-    //         if (this.state.thumb_image) {
-    //             formData.append("portfolio_item[thumb_image]", this.state.thumb_image)
-    //         }
-    //         if (this.state.banner_image) {
-    //             formData.append("portfolio_item[banner_image]", this.state.banner_image)
-    //         }
-    //         if (this.state.logo) {
-    //             formData.append("portfolio_item[logo]", this.state.logo)
-    //         }
-    
-    //         return formData
-    //     }
-    
-    //     handleChange(e) {
-    //         this.setState({
-    //             [event.target.name]: event.target.value
-    //         })
-    //     }
-    
-    //     handleSubmit(event) {
-    //         axios.post(
-    //             "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
-    //             this.buildForm(),
-    //             { withCredentials: true }
-    //         ).then(response => {
-    //             this.props.handleSuccessfulFormSubmission(response.data.portfolio_item)
-    
-    //             this.setState({
-    //                 name: "",
-    //                 description: "",
-    //                 category: "eCommerce",
-    //                 position: "",
-    //                 url: "",
-    //                 thumb_image: "",
-    //                 banner_image: "",
-    //                 logo: ""
-    //             })
-    
-    //             [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
-    //                 ref.current.dropzone.removeAllFiles()
-    //             })
-    //             console.log(this.thumbRef)
-    //         }).catch(error => {
-    //             console.log("portfolio from handleSubmit error", error)
-    //         })
-    
-    //         event.preventDefault()
-    //     }
-    
-    //     render() {
-    //         return (
-    //             <div>
-    //                 <h1>PortfolioForm</h1>
-                    
-    //                 <form onSubmit={this.handleSubmit}>
-    //                     <div>
-    //                         <input 
-    //                         type="text"
-    //                         name="name"
-    //                         placeholder="Portfolio Item Name"
-    //                         value={this.state.name}
-    //                         onChange={this.handleChange}
-    //                         />
-    
-    //                         <input 
-    //                         type="text"
-    //                         name="url"
-    //                         placeholder="URL"
-    //                         value={this.state.url}
-    //                         onChange={this.handleChange}
-    //                         />
-    //                     </div>
-    
-    //                     <div>
-    //                         <input 
-    //                         type="text"
-    //                         name="position"
-    //                         placeholder="Position"
-    //                         value={this.state.position}
-    //                         onChange={this.handleChange}
-    //                         />
-    
-    //                         <select
-    //                         name="category"
-    //                         value={this.state.category}
-    //                         onChange={this.handleChange}
-    //                         >
-    //                             <option value="eCommerce">eCommerce</option>
-    //                             <option value="Scheduling">Scheduling</option>
-    //                             <option value="Enterprise">Enterprise</option>
-    //                         </select>
-    //                     </div>
-    
-    //                     <div>
-    //                     <textarea 
-    //                         type="text"
-    //                         name="description"
-    //                         placeholder="Description"
-    //                         value={this.state.description}
-    //                         onChange={this.handleChange}
-    //                         />
-    //                     </div>
-    
-    //                     <div className="image-uploaders">
-    //                         <DropzoneComponent
-    //                             ref={this.thumbRef}
-    //                             config={this.componentConfig()}
-    //                             djsConfig={this.djsConfig()}
-    //                             eventHandlers={this.handleThumbDrop()}
-    //                         >
-    //                         </DropzoneComponent>
-    //                         <DropzoneComponent
-    //                             ref={this.bannerRef}
-    //                             config={this.componentConfig()}
-    //                             djsConfig={this.djsConfig()}
-    //                             eventHandlers={this.handleBannerDrop()}
-    //                         >
-    //                         </DropzoneComponent>
-    //                         <DropzoneComponent
-    //                             ref={this.logoRef}
-    //                             config={this.componentConfig()}
-    //                             djsConfig={this.djsConfig()}
-    //                             eventHandlers={this.handleLogoDrop()}
-    //                         >
-    //                         </DropzoneComponent>
-    //                     </div>
-    
-    //                     <div>
-    //                         <button type="submit">Save</button>
-    //                     </div>
-    //                 </form>
-    //             </div>
-    //         )
-    //     }
-    // }
 }

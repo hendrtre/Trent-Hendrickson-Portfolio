@@ -19,6 +19,7 @@ const NavigationComponent = (props) => {
 
     const handleSignOut = () => {
         axios
+        // .delete("https://api.devcamp.space/logout", { withCredentials: true })
         .delete("https://api.devcamp.space/logout", { withCredentials: true })
         .then(response => {
           if (response.status === 200) {

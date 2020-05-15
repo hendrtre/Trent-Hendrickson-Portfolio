@@ -25,7 +25,8 @@ export default class PortfolioContainer extends Component {
 
     getPortfolioItems(filter = null) {
         axios
-            .get("https://trenthendrickson.devcamp.space/portfolio/portfolio_items")
+            // .get("https://trenthendrickson.devcamp.space/portfolio/portfolio_items")
+            .get("http://localhost:5000/api/v1/portfolios")
             .then(response => {
                 if (filter) {
                 this.setState({
@@ -35,8 +36,9 @@ export default class PortfolioContainer extends Component {
                 });
                 } else {
                 this.setState({
-                    data: response.data.portfolio_items
+                    data: response.data
                 });
+                console.log(response)
                 }
             })
           .catch(error => {

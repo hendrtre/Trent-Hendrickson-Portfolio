@@ -17,12 +17,17 @@ export default class PortfolioDetail extends Component {
   getPortfolioItem() {
     axios
       .get(
-        `https://trenthendrickson.devcamp.space/portfolio/portfolio_items/${this.props.match.params.slug}`, 
-        { withCredentials: true }
+        `http://localhost:5000/api/v1/portfolio/${this.props.match.params.slug}`, 
+        // { withCredentials: true }
       )
+      // .get(
+      //   `https://trenthendrickson.devcamp.space/portfolio/portfolio_items/${this.props.match.params.slug}`, 
+      //   { withCredentials: true }
+      // )
       .then(response => {
+        console.log(response)
         this.setState({
-            portfolioItem: response.data.portfolio_item
+            portfolioItem: response.data
         })
       })
       .catch(error => {
