@@ -22,7 +22,13 @@ export default class PortfolioForm extends Component {
       editMode: false,
       // apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
       apiUrl: "http://localhost:5000/api/v1/portfolio",
-      apiAction: 'post'
+      apiAction: 'post',
+      logo_url: '',
+      logo_id: '',
+      thumb_image_url: '',
+      thumb_image_id: '',
+      banner_image_url: '',
+      banner_image_id: ''
     };
     
     this.handleChange = this.handleChange.bind(this);
@@ -37,15 +43,17 @@ export default class PortfolioForm extends Component {
     this.thumbRef = React.createRef();
     this.bannerRef = React.createRef();
     this.logoRef = React.createRef();
+
+
 }
 
 deleteImage(imageType) {
   console.log(imageType)
   axios.delete(
     // `http://localhost:5000/api/v1/portfolio/<id>`,
-    `http://localhost:5000/api/v1/portfolio/${this.state.id}?image_type=${imageType}`,
-    { withCredentials: true }
-  ).then(response => {
+    `http://localhost:5000/api/v1/portfolio/${this.state.id}?image_type=${imageType}`,)
+    // I DELETED WITHCREDENTIALS:TRUE
+    .then(response => {
     this.setState({
       [`${imageType}_url`]: ""
     })
@@ -137,88 +145,149 @@ djsConfig() {
     };
 }
 
-  buildForm() {
-      let formData = new FormData();
-      
-    formData.append("portfolio_item[name]", this.state.name);
-    formData.append("portfolio_item[description]", this.state.description);
-    formData.append("portfolio_item[url]", this.state.url);
-    formData.append("portfolio_item[category]", this.state.category);
-    formData.append("portfolio_item[position]", this.state.position);
-    
-    if (this.state.thumb_image) {
-        formData.append("portfolio_item[thumb_image]", this.state.thumb_image);
-    }
-    
-    if (this.state.banner_image) {
-        formData.append("portfolio_item[banner_image]", this.state.banner_image);
-    }
-    
-    if (this.state.logo) {
-        formData.append("portfolio_item[logo]", this.state.logo);
-    }
-    
-    return formData;
-}
-
   handleChange(event) {
       this.setState({
       [event.target.name]: event.target.value
     });
-}
+  }
 
-handleSubmit(event) {
-    axios({
-      method: this.state.apiAction,
-      url: this.state.apiUrl,
-      // data: this.buildForm(),
-      data: {
-        name: this.state.name,
-        description: this.state.description,
-        category: this.state.category,
-        position: this.state.position,
-        url: this.state.url,
-        thumb_image_url: "https://cloudinary.com/wahte/imageurl",
-        thumb_image_id: "dummy text",
-        banner_image_url: "dummy text",
-        banner_image_id: "dummy text",
-        logo_url: "dummy text",
-        logo_id: "dummy text"
+handleSubmit(event) { 
+  console.log('works')
+  logoFormData = new FormData()
+  logoFormData.append('file', logo)
+  logoFormData.append('upload_preset', 'portfolio-items')
+
+  thumbFormData = new FormData()
+  thumbFormData.append('file', thumb)
+  thumbFormData.append('upload_preset', 'Thumb-items')
+
+  bannerFormData = new FormData()
+  bannerFormData.append('file', banner)
+  bannerFormData.append('upload_preset', 'portfolio-items')
+  // const logoFormData = new FormData();
+  // logoFormData.append('file', this.state.logo)
+  // logoFormData.append('upload_preset', 'portfolio-items')
+  // const thumbFormData = new FormData();
+  // thumbFormData.append('file', this.state.thumb_image)
+  // thumbFormData.append('upload_preset', 'portfolio-items')
+  // const bannerFormData = new FormData();
+  // bannerFormData.append('file', this.state.banner_image)
+  // bannerFormData.append('upload_preset', 'portfolio-items')
+
+  try {
+    // const logoCloudinary = await axios(
+    const logoCloudinary = axios(
+      {
+        method: "post",
+        url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+        data: logoFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
       }
-    })
-      .then(response => {
-          if (this.state.editMode) {
-            this.props.handleEditFormSubmission()
-          } else {   
-            this.props.handleNewFormSubmission(response.data);
-          }
+    )
+    // const thumbCloudinary = await axios(
+    const thumbCloudinary = axios(
+      {
+        method: "post",
+        url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+        data: thumbFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+    )
+    // const bannerCloudinary = await axios(
+    const bannerCloudinary = axios(
+      {
+        method: "post",
+        url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+        data: bannerFormData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+    )
+    // const flaskDatabase = await axios(
+    const flaskDatabase = axios(
+      {
+        method: "post",
+        url: 'http://localhost:5000/api/v1/portfolio',
+        data: {
+          name: this.state.name,
+          description: this.state.description,
+          category: this.state.category,
+          position: this.state.position,
+          url: this.state.url,
+          logo_url: logoCloudinary.data.secure_url,
+          logo_public_id: logoCloudinary.data.public_id,
+          thumb_image_url: thumbCloudinary.data.secure_url,
+          thumb_image_public_id: thumbCloudinary.data.public_id,
+          banner_image_url: bannerCloudinary.data.secure_url,
+          banner_image_public_id: bannerCloudinary.data.public_id,
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
 
-          this.setState({
-          name: "",
-          description: "",
-          category: "eCommerce",
-          position: "",
-          url: "",
-          thumb_image: "",
-          banner_image: "",
-          logo: "",
-          editMode: false,
-          apiUrl: "http://localhost:5000/api/v1/portfolio",
-          // apiUrl: "https://trenthendrickson.devcamp.space/portfolio/portfolio_items",
-          apiAction: 'post'
 
-        });
-        
-        [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
-            ref.current.dropzone.removeAllFiles();
-        });
-    })
-    .catch(error => {
-        console.log("portfolio form handleSubmit error", error);
-    });
-    
-    event.preventDefault();
+
+    // let thumb_image_url
+    // let thumb_image_id
+    // let banner_image_url
+    // let banner_image_id
+    // let logo_url
+    // let logo_id
+
+    // axios.all([logoCloudinary, thumbCloudinary, bannerCloudinary]).then(axios.spread((...responses) => {
+    //   const logoCloudinaryResponse = responses[0]
+    //   const thumbCloudinaryResponse = responses[1]
+    //   const bannerCloudinaryResponse = responses[2]
+    //   console.log(logoCloudinaryResponse)
+    //   console.log(thumbCloudinaryResponse)
+    //   console.log(bannerCloudinaryResponse)
+    //   thumb_image_url = thumbCloudinary.data.secure_url,
+    //   thumb_image_id = thumbCloudinary.data.public_id,
+    //   banner_image_url = bannerCloudinary.data.secure_url,
+    //   banner_image_id = bannerCloudinary.data.public_id,
+    //   logo_url = logoCloudinary.data.secure_url,
+    //   logo_id = logoCloudinary.data.public_id
+    // }))
+    // .then(res => {
+    //   console.log(res)
+    //   axios(
+    //     {
+    //       method: "post",
+    //       url: 'http://localhost:5000/api/v1/portfolio',
+    //       data: {
+    //         name: this.state.name,
+    //         description: this.state.description,
+    //         category: this.state.category,
+    //         position: this.state.position,
+    //         url: this.state.url,
+    //         thumb_image_url: thumb_image_url,
+    //         thumb_image_id: thumb_image_id,
+    //         banner_image_url: banner_image_url,
+    //         banner_image_id: banner_image_id,
+    //         logo_url: logo_url,
+    //         logo_id: logo_id
+    //       },
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }
+    //     }
+    //   )
+    //   .then(res => {
+    //     console.log('wow it worked')
+    //   })
+    // })
+  } catch (err) {
+    console.log(err)
+  }
+  event.preventDefault();
 }
+
+
+
+
+
+
 
 render() {
     return (

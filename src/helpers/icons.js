@@ -1,3 +1,5 @@
+import { library } from "@fortawesome/fontawesome-svg-core"
+
 import { 
     faTrash, 
     faSignOutAlt, 
@@ -7,9 +9,16 @@ import {
     faPhone,
     faEnvelope,
     faMapMarkedAlt,
-    faLock
+    faLock,
+    faFileAlt,
+    faBusinessTime,
+    faUserTie, 
 } from "@fortawesome/free-solid-svg-icons"
-import { library } from "@fortawesome/fontawesome-svg-core"
+
+import { 
+    faLinkedin,
+    faGithubSquare
+} from "@fortawesome/free-brands-svg-icons"
 
 
 const Icons = () => {
@@ -22,7 +31,12 @@ const Icons = () => {
         faPhone,
         faEnvelope,
         faMapMarkedAlt,
-        faLock
+        faLock,
+        faFileAlt,
+        faBusinessTime,
+        faLinkedin,
+        faGithubSquare,
+        faUserTie,
     )   
 }
 

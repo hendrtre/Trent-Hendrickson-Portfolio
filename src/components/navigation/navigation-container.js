@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { withRouter } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import navPicture from "./../../../static/assets/bio/MyProfile.jpg"
+import balanceLine from "../../../static/assets/images/Other/balance-line-cropped.jpg"
+import { faLinkedin, faGithubSquare } from "@fortawesome/free-brands-svg-icons";
+
 
 
 const NavigationComponent = (props) => {
@@ -41,11 +44,19 @@ const NavigationComponent = (props) => {
             </div>
             
             <div className="right-side">
-                Trent Hendrickson
+                <p>Trent Hendrickson</p>                
                 {props.loggedInStatus === 'LOGGED_IN' ? <a onClick={handleSignOut}>
                     <FontAwesomeIcon icon="sign-out-alt" />
                 </a> : null}
             </div>
+
+            <img className="balance-line" src={balanceLine} alt="balanceLine"/>
+
+            {/* <p>Actively Seeking,</p> */}
+            <p>Software Engineer</p>
+            <p>Front-End Developer</p>
+            <p>QA Tester</p>
+
             <div className="left-side">
 
                 <div className="nav-link-wrapper">
@@ -75,7 +86,20 @@ const NavigationComponent = (props) => {
 
 
                 {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/portfolio-manager", "Portfolio Manager") : null }
-            </div>                
+            </div>    
+            <div className="social-links">
+                <a href="https://www.linkedin.com/in/trent-hendrickson-09b4781a1/">
+                    <FontAwesomeIcon icon={faLinkedin} />
+                </a>
+                <a href="">
+                    <FontAwesomeIcon icon={faGithubSquare} />
+                </a>
+                <a href="">
+                    <FontAwesomeIcon icon="file-alt" />
+                </a>
+            </div>
+
+            <img className="balance-line" src={balanceLine} alt="balanceLine"/>
         </div>
     )
 }
