@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import navPicture from "./../../../static/assets/bio/MyProfile.jpg"
 import balanceLine from "../../../static/assets/images/Other/balance-line-cropped.jpg"
 import { faLinkedin, faGithubSquare } from "@fortawesome/free-brands-svg-icons";
+import '../../fonts/BlackPearl.ttf'
 
 
 
@@ -44,7 +45,10 @@ const NavigationComponent = (props) => {
             </div>
             
             <div className="right-side">
-                <p>Trent Hendrickson</p>                
+                <div className="myName">
+                    <div className="myFirstName">Trent</div>
+                    <div className="myLastName">Hendrickson</div>
+                </div>
                 {props.loggedInStatus === 'LOGGED_IN' ? <a onClick={handleSignOut}>
                     <FontAwesomeIcon icon="sign-out-alt" />
                 </a> : null}
@@ -88,15 +92,21 @@ const NavigationComponent = (props) => {
                 {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/portfolio-manager", "Portfolio Manager") : null }
             </div>    
             <div className="social-links">
-                <a href="https://www.linkedin.com/in/trent-hendrickson-09b4781a1/">
-                    <FontAwesomeIcon icon={faLinkedin} />
-                </a>
-                <a href="">
-                    <FontAwesomeIcon icon={faGithubSquare} />
-                </a>
-                <a href="">
-                    <FontAwesomeIcon icon="file-alt" />
-                </a>
+                <div className="icon">
+                    <a href="https://www.linkedin.com/in/trent-hendrickson-09b4781a1/">
+                        <FontAwesomeIcon icon={faLinkedin} />
+                    </a>
+                </div>
+                <div className="icon">
+                    <a href="https://github.com/hendrtre">
+                        <FontAwesomeIcon icon={faGithubSquare} />
+                    </a>
+                </div>
+                <div className="icon">
+                    <a href="https://docs.google.com/document/d/1hvFAg3GPAPTBZi_gawR_zOvt4MdhTTFCtJ54kZxr7qU/edit?usp=sharing">
+                        <FontAwesomeIcon icon="file-alt" />
+                    </a>
+                </div>
             </div>
 
             <img className="balance-line" src={balanceLine} alt="balanceLine"/>

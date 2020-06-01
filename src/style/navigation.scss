@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'BlackPearl';
+    src: local('BlackPearl'), url(./../../src/fonts/BlackPearl.ttf) format('truetype')
+}
+
 .nav-wrapper {
     // display: flex;
     // justify-content: space-between;
@@ -24,6 +29,22 @@
         display: flex;
         justify-content: center;
         // padding-bottom: 10px;
+
+        .myFirstName {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-family: BlackPearl;
+        }
+        .myLastName {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-family: BlackPearl;
+        }
+
         p {
             font-size: 25px;
         }
@@ -82,13 +103,14 @@
         font-size: 2em;
         margin-top: 10px;
 
-        .icon {
-            margin-top: 10px;
-        }
-
         a {
             text-decoration: none;
             color: $charcoal;
+            &:hover {
+                color: $redish;
+                transition: 0.5s ease-in-out;
+                // box-shadow: 0 0 10px black;
+            }
         }
     }
 }
