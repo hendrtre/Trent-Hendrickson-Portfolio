@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import veniceBackground from "../../../static/assets/images/page-cover/venice-background-4.jpg"
 import dimondLine from "../../../static/assets/images/Other/dimond-line-cropped.jpg"
 import { faLinkedin, faGithubSquare } from "@fortawesome/free-brands-svg-icons";
+import '../../fonts/StarJedi.ttf'
 
 export default function() {
     return (
@@ -10,7 +11,36 @@ export default function() {
       <img className="veniceBackground" src={veniceBackground} alt="venice-background"/>
 
         <div className="content-page-wrapper">
-          <div className="left-column">
+
+        <div className="left-column">
+          <h2>Best way to contact Trent:</h2>
+          <img src={dimondLine} alt="dimondLine"/>
+
+          <div className="contact-bullet-points">
+            <div className="bullet-point-group">
+              <div className="icon">
+                  <FontAwesomeIcon icon="phone" />
+              </div>
+              <div className="text">(385)-329-1441</div>
+            </div>
+
+            <div className="bullet-point-group">
+              <div className="icon">
+                  <FontAwesomeIcon icon="envelope" />
+              </div>
+              <div className="text">trentdev2020@gmail.com</div>
+            </div>
+
+            <div className="bullet-point-group">
+              <div className="icon">
+                  <FontAwesomeIcon icon="map-marked-alt" />
+              </div>
+              <div className="text">From: Orem, UT</div>
+            </div>
+          </div>
+        </div>
+
+          <div className="right-column">
             <div className="social-links">
               <h2>Take a look at my:</h2>
               
@@ -53,35 +83,8 @@ export default function() {
           </div>
         </div>
 
-        <div className="right-column">
-          <h2>Best way to contact Trent.</h2>
-          <img src={dimondLine} alt="dimondLine"/>
-
-          <div className="contact-bullet-points">
-            <div className="bullet-point-group">
-              <div className="icon">
-                  <FontAwesomeIcon icon="phone" />
-              </div>
-              <div className="text">(385)-329-1441</div>
-            </div>
-
-            <div className="bullet-point-group">
-              <div className="icon">
-                  <FontAwesomeIcon icon="envelope" />
-              </div>
-              <div className="text">trentdev2020@gmail.com</div>
-            </div>
-
-            <div className="bullet-point-group">
-              <div className="icon">
-                  <FontAwesomeIcon icon="map-marked-alt" />
-              </div>
-              <div className="text">From: Orem, UT</div>
-            </div>
-          </div>
-        </div>
-
       </div>
+
         <div className="reference">
                 <h2>My references:</h2>
                 <div className="text">Michael Strange <FontAwesomeIcon icon="user-tie" /> mike@strangegunsmithing.com</div>

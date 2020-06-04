@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'StarJedi';
+    src: local('StarJedi'), url(../fonts/StarJedi.ttf) format('truetype')
+}
+
+@font-face {
+    font-family: 'StarJediRounded';
+    src: local('StarJediRounded'), url(../fonts/StarJediRounded.ttf) format('truetype')
+}
+
 .about-me {
     // margin-bottom: 10px;
     .NotreDame {
@@ -42,7 +52,7 @@
     grid-template-columns: 1fr 1fr;
     background-color: rgb(248, 248, 248);
 
-    .left-column {
+    .right-column {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -101,15 +111,17 @@
     }
 
 
-    .right-column {
+    .left-column {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         padding: 50px;
-
+        
         h2 {
             margin: 0;
+            // font-family: StarJediRounded;
+            // font-family: StarJedi;
         }
 
         img {

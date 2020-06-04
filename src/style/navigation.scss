@@ -3,6 +3,11 @@
     src: local('BlackPearl'), url(./../../src/fonts/BlackPearl.ttf) format('truetype')
 }
 
+@font-face {
+    font-family: 'Rebellion';
+    src: local('Rebellion'), url(./../../src/fonts/Rebellion.ttf) format('truetype')
+}
+
 .nav-wrapper {
     // display: flex;
     // justify-content: space-between;
@@ -20,7 +25,8 @@
         display: flex;
         justify-content: center;
         margin: 0px;
-        font-size: 20px;
+        font-size: 23px;
+        font-weight: bold;
         // margin-left: 20px;
         // margin-right: 20px;
     }
@@ -45,9 +51,6 @@
             font-family: BlackPearl;
         }
 
-        p {
-            font-size: 25px;
-        }
         a {
             margin-left: 15px;
             cursor: pointer;
@@ -64,21 +67,23 @@
     .left-side {
         display: flex;
         justify-content: center;
-
+        align-items: center;
     }
 
     .nav-link-wrapper {
+        font-family: Rebellion;
         height: 22px;
         border-bottom: 5px transparent;
         transition: 0.5s ease-in-out;
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-top: 20px;
+        margin-right: 2px;
+        margin-left: 2px;
+        margin-bottom: 10px;
         text-transform: uppercase;
 
         a {
             color: $grey;
             text-decoration: none;
+            // padding-bottom: 10px;
             &:hover {
                 color: black;
             }
@@ -90,18 +95,18 @@
 
         .nav-link-active {
             border-bottom: 1.5px solid black;
-            color: black;            
+            color: black;   
+            // padding-bottom: 5px;         
         }
-
     }
 
     .social-links {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        height: 80px;
+        height: 40px;
         font-size: 2em;
-        margin-top: 10px;
+        margin-top: 15px;
 
         a {
             text-decoration: none;
@@ -112,5 +117,8 @@
                 // box-shadow: 0 0 10px black;
             }
         }
+    }
+    .balance-line2 {
+        transform: rotate(180deg);
     }
 }

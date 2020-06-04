@@ -1,6 +1,7 @@
 import React from 'react'
 import PortfolioContainer from '../portfolio/portfolio-container'
 import Zermatt from '../../../static/assets/images/page-cover/Zermatt-Matterhorn.jpg'
+import "../../fonts/Rebellion.ttf"
 
 export default function() {
     return (

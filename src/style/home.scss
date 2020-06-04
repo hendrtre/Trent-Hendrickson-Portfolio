@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Avengero';
+    src: local('Avengero'), url(./../../src/fonts/Avengero.ttf) format('truetype')
+}
+
 .home-cover-image {
     font-family: 'Righteous', cursive;
     width: 100%;
@@ -15,12 +20,13 @@
 
     .img-text-1 {
         overflow: hidden;
-        border-right: .15em solid orange;
+        border-right: .15em solid ;
+        // border-right: .15em solid orange;
         white-space: nowrap;
         margin: 0 auto;
         letter-spacing: .10em;
-        font-size: 35px;
-        text-shadow: 2px 2px black;
+        font-size: 25px;
+        text-shadow: 3px 3px black;
 
         position: absolute;
         top: 50%;
@@ -31,12 +37,12 @@
     }
     .img-text-2 {
         overflow: hidden;
-        border-right: .15em solid orange;
+        border-right: .15em solid ;
         white-space: nowrap;
         margin: 0 auto;
         letter-spacing: .10em;
-        font-size: 30px;
-        text-shadow: 2px 3px black;
+        font-size: 22px;
+        text-shadow: 3px 3px black;
 
         position: absolute;
         top: 70%;
@@ -57,13 +63,18 @@
 
         .btn {
             width: 100%;
+            font-weight: lighter;
+            // font-family: Rebellion;
+            font-family: 'Avengero';
+            text-transform: uppercase;
+            color: white;
         }
     }
 }
 
 @keyframes typing {
     from { width: 0; }
-    to { width: 20.5em;}
+    to { width: 21em;}
 }
 
 @keyframes typing2 {
@@ -73,7 +84,7 @@
 
 @keyframes blink-caret {
     from, to { border-color: transparent; }
-    50% { border-color: orange;}
+    50% { border-color: $dark-redish;}
 }
 
 @keyframes blink-caret-end {

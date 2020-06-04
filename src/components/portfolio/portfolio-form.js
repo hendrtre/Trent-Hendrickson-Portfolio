@@ -485,143 +485,168 @@ djsConfig() {
       this.setState({
       [event.target.name]: event.target.value
     });
-  }
-
+}
 
 handleSubmit(event) {
-  console.log("works?")
-  const logoFormData = new FormData()
-  logoFormData.append('file', logo)
-  logoFormData.append('upload_preset', 'logo-items')
+  addMovie = (name, description, url, category, position, thumb, banner, logo) => {
+    const logoFormData = new FormData()
+    logoFormData.append('file', logo)
+    logoFormData.append('upload_preset', 'portfolio-items')
 
-  const thumbFormData = new FormData()
-  thumbFormData.append('file', thumb)
-  thumbFormData.append('upload_preset', 'thumb-items')
+    const bannerFormData = new FormData()
+    bannerFormData.append('file', banner)
+    bannerFormData.append('upload_preset', 'portfolio-items')
 
-  const bannerFormData = new FormData()
-  bannerFormData.append('file', banner)
-  bannerFormData.append('upload_preset', 'banner-items')
+    const thumbFormData = new FormData()
+    thumbFormData.append('file', thumb)
+    thumbFormData.append('upload_preset', 'portfolio-items')
 
-  try {
-     // const logoCloudinary = await axios(
-      const logoCloudinary = axios(
+    axios.all([
+      axios(
         {
           method: "post",
-          url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+          url:'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
           data: logoFormData,
           headers: { 'Content-Type': 'multipart/form-data' }
         }
-      )
-      // const thumbCloudinary = await axios(
-      const thumbCloudinary = axios(
+      ),
+      axios(
         {
           method: "post",
-          url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+          url:'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+          data: bannerFormData,
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }
+      ),
+      axios(
+        {
+          method: "post",
+          url:'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
           data: thumbFormData,
           headers: { 'Content-Type': 'multipart/form-data' }
         }
       )
-      // const bannerCloudinary = await axios(
-      const bannerCloudinary = axios(
+    ])
+    .then(axios.spread((logoFormDataResponse, bannerFormDataResponse, thumbFormDataResponse) => {
+      console.log('logoFormData: ', logoFormDataResponse)
+      console.log('bannerFormData: ', bannerFormDataResponse)
+      console.log('thumbFormData: ', thumbFormDataResponse)
+      axios(
         {
           method: "post",
-          url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
-          data: bannerFormData,
-          headers: { 'Content-Type': 'multipart/form-data' }
+          url: 'http://localhost:5000/api/v1/portfolio',
+          data: {
+            name: this.state.name,
+            description: this.state.description,
+            url: this.state.url,
+            category: this.state.category,
+            position: this.state.position,
+            // name: name,
+            // description: description,
+            // url: url,
+            // category: category,
+            // position: position,
+            image_url: logoFormDataResponse.data.secure_url,
+            public_id: logoFormDataResponse.data.public_id,
+            image_url: bannerFormDataResponse.data.secure_url,
+            public_id: bannerFormDataResponse.data.public_id,
+            image_url: thumbFormDataResponse.data.secure_url,
+            public_id: thumbFormDataResponse.data.public_id
+          },
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      )
-      axios({
-        method: this.state.apiAction,
-        url: this.state.apiUrl,
-        data: {
-          name: this.state.name,
-          description: this.state.description,
-          category: this.state.category,
-          position: this.state.position,
-          url: this.state.url,
-          thumb_image: this.state.thumb_image,
-          banner_image: this.state.banner_image,
-          logo: this.state.logo,
-          logo_url: logoCloudinary.data.secure_url,
-          logo_public_id: logoCloudinary.data.public_id,
-          thumb_image_url: thumbCloudinary.data.secure_url,
-          thumb_image_public_id: thumbCloudinary.data.public_id,
-          banner_image_url: bannerCloudinary.data.secure_url,
-          banner_image_public_id: bannerCloudinary.data.public_id,
-        },
-        headers: {
-          'Content-Type': 'application/json'
+      ).then(res => {
+        if (this.state.editMode) {
+          this.props.handleEditFormSubmission()
+        } else {
+          this.props.handleNewFormSubmission(response.data.portfolio_item)
         }
+
+        this.setState({
+          name: "",
+          description: "",
+          category: "eCommerce",
+          position: "",
+          url: "",
+          thumb_image: "",
+          banner_image: "",
+          logo: "",
+          editMode: false,
+          apiUrl: "http://localhost:5000/api/v1/portfolio",
+          apiAction: 'post'
+        })
+
+        [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
+          ref.current.dropzone.removeAllFiles();
+        })
       })
-  } catch (err) {
-    console.log("PROBLEM!")
+      .catch(error => {
+        console.log("handlesubmit error", error)
+      })
+    }))
   }
   event.preventDefault()
 }
 
 
-// handleSubmit(event) { 
-//   console.log('works')
-//   let logoFormData = new FormData()
+
+
+// handleSubmit(event) {
+//   console.log("works?")
+//   const logoFormData = new FormData()
 //   logoFormData.append('file', logo)
 //   logoFormData.append('upload_preset', 'logo-items')
 
-//   let thumbFormData = new FormData()
+//   const thumbFormData = new FormData()
 //   thumbFormData.append('file', thumb)
 //   thumbFormData.append('upload_preset', 'thumb-items')
 
-//   let bannerFormData = new FormData()
+//   const bannerFormData = new FormData()
 //   bannerFormData.append('file', banner)
 //   bannerFormData.append('upload_preset', 'banner-items')
-//   // const logoFormData = new FormData();
-//   // logoFormData.append('file', this.state.logo)
-//   // logoFormData.append('upload_preset', 'portfolio-items')
-//   // const thumbFormData = new FormData();
-//   // thumbFormData.append('file', this.state.thumb_image)
-//   // thumbFormData.append('upload_preset', 'portfolio-items')
-//   // const bannerFormData = new FormData();
-//   // bannerFormData.append('file', this.state.banner_image)
-//   // bannerFormData.append('upload_preset', 'portfolio-items')
 
 //   try {
-//     // const logoCloudinary = await axios(
-//     const logoCloudinary = axios(
-//       {
-//         method: "post",
-//         url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
-//         data: logoFormData,
-//         headers: { 'Content-Type': 'multipart/form-data' }
-//       }
-//     )
-//     // const thumbCloudinary = await axios(
-//     const thumbCloudinary = axios(
-//       {
-//         method: "post",
-//         url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
-//         data: thumbFormData,
-//         headers: { 'Content-Type': 'multipart/form-data' }
-//       }
-//     )
-//     // const bannerCloudinary = await axios(
-//     const bannerCloudinary = axios(
-//       {
-//         method: "post",
-//         url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
-//         data: bannerFormData,
-//         headers: { 'Content-Type': 'multipart/form-data' }
-//       }
-//     )
-//     // const flaskDatabase = await axios(
-//     const flaskDatabase = axios(
-//       {
-//         method: "post",
-//         url: 'http://localhost:5000/api/v1/portfolio',
+//      // const logoCloudinary = await axios(
+//       const logoCloudinary = axios(
+//         {
+//           method: "post",
+//           url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+//           data: logoFormData,
+//           headers: { 'Content-Type': 'multipart/form-data' }
+//         }
+//       )
+//       // const thumbCloudinary = await axios(
+//       const thumbCloudinary = axios(
+//         {
+//           method: "post",
+//           url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+//           data: thumbFormData,
+//           headers: { 'Content-Type': 'multipart/form-data' }
+//         }
+//       )
+//       // const bannerCloudinary = await axios(
+//       const bannerCloudinary = axios(
+//         {
+//           method: "post",
+//           url: 'https://api.cloudinary.com/v1_1/tahimagecloud/image/upload',
+//           data: bannerFormData,
+//           headers: { 'Content-Type': 'multipart/form-data' }
+//         }
+//       )
+//       axios({
+//         method: this.state.apiAction,
+//         url: this.state.apiUrl,
 //         data: {
 //           name: this.state.name,
 //           description: this.state.description,
 //           category: this.state.category,
 //           position: this.state.position,
 //           url: this.state.url,
+//           thumb_image: this.state.thumb_image,
+//           banner_image: this.state.banner_image,
+//           logo: this.state.logo,
 //           logo_url: logoCloudinary.data.secure_url,
 //           logo_public_id: logoCloudinary.data.public_id,
 //           thumb_image_url: thumbCloudinary.data.secure_url,
@@ -632,75 +657,17 @@ handleSubmit(event) {
 //         headers: {
 //           'Content-Type': 'application/json'
 //         }
-//       }
-//     )
-
-
-
-//     // let thumb_image_url
-//     // let thumb_image_id
-//     // let banner_image_url
-//     // let banner_image_id
-//     // let logo_url
-//     // let logo_id
-
-//     // axios.all([logoCloudinary, thumbCloudinary, bannerCloudinary]).then(axios.spread((...responses) => {
-//     //   const logoCloudinaryResponse = responses[0]
-//     //   const thumbCloudinaryResponse = responses[1]
-//     //   const bannerCloudinaryResponse = responses[2]
-//     //   console.log(logoCloudinaryResponse)
-//     //   console.log(thumbCloudinaryResponse)
-//     //   console.log(bannerCloudinaryResponse)
-//     //   thumb_image_url = thumbCloudinary.data.secure_url,
-//     //   thumb_image_id = thumbCloudinary.data.public_id,
-//     //   banner_image_url = bannerCloudinary.data.secure_url,
-//     //   banner_image_id = bannerCloudinary.data.public_id,
-//     //   logo_url = logoCloudinary.data.secure_url,
-//     //   logo_id = logoCloudinary.data.public_id
-//     // }))
-//     // .then(res => {
-//     //   console.log(res)
-//     //   axios(
-//     //     {
-//     //       method: "post",
-//     //       url: 'http://localhost:5000/api/v1/portfolio',
-//     //       data: {
-//     //         name: this.state.name,
-//     //         description: this.state.description,
-//     //         category: this.state.category,
-//     //         position: this.state.position,
-//     //         url: this.state.url,
-//     //         thumb_image_url: thumb_image_url,
-//     //         thumb_image_id: thumb_image_id,
-//     //         banner_image_url: banner_image_url,
-//     //         banner_image_id: banner_image_id,
-//     //         logo_url: logo_url,
-//     //         logo_id: logo_id
-//     //       },
-//     //       headers: {
-//     //         'Content-Type': 'application/json'
-//     //       }
-//     //     }
-//     //   )
-//     //   .then(res => {
-//     //     console.log('wow it worked')
-//     //   })
-//     // })
+//       })
 //   } catch (err) {
-//     console.log(err)
+//     console.log("PROBLEM!")
 //   }
-//   event.preventDefault();
+//   event.preventDefault()
 // }
-
-
-
-
-
-
 
 render() {
     return (
         <form onSubmit={this.handleSubmit} className="portfolio-form-wrapper">
+        {/* <form onSubmit={this.addMovie} className="portfolio-form-wrapper"> */}
           <div className="two-column">
             <input
               type="text"

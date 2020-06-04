@@ -54,12 +54,12 @@ const NavigationComponent = (props) => {
                 </a> : null}
             </div>
 
-            <img className="balance-line" src={balanceLine} alt="balanceLine"/>
+            <img className="balance-line1" src={balanceLine} alt="balanceLine"/>
 
             {/* <p>Actively Seeking,</p> */}
-            <p>Software Engineer</p>
+            {/* <p>Software Engineer</p>
             <p>Front-End Developer</p>
-            <p>QA Tester</p>
+            <p>QA Tester</p> */}
 
             <div className="left-side">
 
@@ -91,6 +91,11 @@ const NavigationComponent = (props) => {
 
                 {props.loggedInStatus === "LOGGED_IN" ? dynamicLink("/portfolio-manager", "Portfolio Manager") : null }
             </div>    
+
+            <p>Software Engineer</p>
+            <p>Front-End Developer</p>
+            <p>QA Tester</p>
+
             <div className="social-links">
                 <div className="icon">
                     <a href="https://www.linkedin.com/in/trent-hendrickson-09b4781a1/">
@@ -109,7 +114,7 @@ const NavigationComponent = (props) => {
                 </div>
             </div>
 
-            <img className="balance-line" src={balanceLine} alt="balanceLine"/>
+            <img className="balance-line2" src={balanceLine} alt="balanceLine"/>
         </div>
     )
 }
